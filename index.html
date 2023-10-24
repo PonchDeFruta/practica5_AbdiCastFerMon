@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Servicios Web</title>
+</head>
+<body>
+    <h1>Consulta de Datos</h1>
+    
+    <div>
+        <h2>Consulta de Datos Meteorológicos</h2>
+        <label for="ciudad">Ciudad:</label>
+        <input type="text" id="ciudadInput">
+        <button onclick="consultarDatosMeteorologicos()">Consultar</button>
+        <div id="datosMeteorologicos"></div>
+    </div>
+    
+    <div>
+        <h2>Consulta de Información de Ubicación</h2>
+        <label for="lugar">Lugar:</label>
+        <input type="text" id="lugarInput">
+        <button onclick="consultarInformacionUbicacion()">Consultar</button>
+        <div id="datosUbicacion"></div>
+    </div>
+
+    <div>
+        <h2>Top Canciones en Spotify</h2>
+        <label for="pais">País:</label>
+        <input type="text" id="paisInput">
+        <button onclick="consultarTopCanciones()">Consultar</button>
+        <div id="topCanciones"></div>
+    </div>
+
+    <script>
+        function consultarDatosMeteorologicos() {
+            const ciudad = document.getElementById("ciudadInput").value;
+            fetch(`/temperature/${ciudad}`)
+                .then(response => response.json())
+                .then(data => {
+                    const datosMeteorologicosDiv = document.getElementById("datosMeteorologicos");
+                    datosMeteorologicosDiv.textContent = JSON.stringify(data, null, 2);
+                })
+                .catch(error => console.error(error));
+        }
+
+        function consultarInformacionUbicacion() {
+            const lugar = document.getElementById("lugarInput").value;
+            fetch(`/lugar/${lugar}`)
+                .then(response => response.json())
+                .then(data => {
+                    const datosUbicacionDiv = document.getElementById("datosUbicacion");
+                    datosUbicacionDiv.textContent = JSON.stringify(data, null, 2);
+                })
+                .catch(error => console.error(error));
+        }
+
+        function consultarTopCanciones() {
+            const pais = document.getElementById("paisInput").value;
+            fetch(`/spotify/${pais}`)
+                .then(response => response.json())
+                .then(data => {
+                    
+                    const topCancionesDiv = document.getElementById("topCanciones");
+                    topCancionesDiv.textContent = JSON.stringify(data, null, 2);
+                })
+                .catch(error => console.error(error));
+        }
+    </script>
+</body>
+</html>

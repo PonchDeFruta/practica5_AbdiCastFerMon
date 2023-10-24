@@ -56,5 +56,5 @@ def obtener_canciones(pais):
         return f'Error en la solicitud: Código {response.status_code}'
 
 obtener_temperatura("Mexico")
-#obtener_lugar(pais)
-#obtener_canciones(pais)
+obtener_lugar(pais)
+obtener_canciones(pais)

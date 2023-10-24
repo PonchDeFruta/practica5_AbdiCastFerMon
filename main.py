@@ -62,6 +62,7 @@ datosgeonames_json = {
 
 
 
+
 def obtener_datos_meteorologicos(ciudad):
     app_key = "8a915e32c25f6576a1735a2bf02b453e"
     url = f"http://api.openweathermap.org/data/2.5/weather?q={ciudad}&appid={app_key}"
@@ -156,7 +157,7 @@ def obtener_token():
 if __name__ == "__main__":
     #Coloca tu usuario de geonames
     geonames_username = "diegofch"
-   # lugar = "México"  # Cambia esto a la ubicación que desees consultar
+    lugar = "México"  # Cambia esto a la ubicación que desees consultar
 
 class MyHandler(http.server.SimpleHTTPRequestHandler):
     def do_GET(self):
@@ -191,6 +192,7 @@ class MyHandler(http.server.SimpleHTTPRequestHandler):
 
         else:
             super().do_GET()
+
 
 # Configuración del servidor
 with socketserver.TCPServer(("", 9092), MyHandler) as httpd:
