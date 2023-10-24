@@ -156,39 +156,38 @@ def obtener_token():
 if __name__ == "__main__":
     #Coloca tu usuario de geonames
     geonames_username = "diegofch"
-    lugar = "México"  # Cambia esto a la ubicación que desees consultar
+   # lugar = "México"  # Cambia esto a la ubicación que desees consultar
 
 class MyHandler(http.server.SimpleHTTPRequestHandler):
     def do_GET(self):
 
         if self.path.startswith('/temperature/'):
-            pais = self.path[13:]
-            obtener_datos_meteorologicos(pais)
+            ciudad = self.path[13:]  # Obtener el nombre de la ciudad desde la ruta
+            obtener_datos_meteorologicos(ciudad)  # Llamar a la función para obtener datos meteorológicos
             data = datosopenweathermap_json
             self.send_response(200)
             self.send_header('Content-type', 'application/json')
             self.end_headers()
-            self.wfile.write(json.dumps(data).encode())  # Codificar la cadena a bytes
+            self.wfile.write(json.dumps(data).encode())  # Enviar la respuesta en formato JSON
 
-        if self.path.startswith('/lugar/'):
-            lugar = self.path[7:]
-            obtener_informacion_ubicacion(lugar)
+        elif self.path.startswith('/lugar/'):
+            lugar = self.path[7:]  # Obtener el nombre del lugar desde la ruta
+            obtener_informacion_ubicacion(geonames_username, lugar)  # Llamar a la función para obtener información de ubicación
             data = datosgeonames_json
             self.send_response(200)
             self.send_header('Content-type', 'application/json')
             self.end_headers()
-            self.wfile.write(json.dumps(data).encode())  # Codificar la cadena a bytes
+            self.wfile.write(json.dumps(data).encode())  # Enviar la respuesta en formato JSON
 
-        if self.path.startswith('/spotify/'):
-            canciones = self.path[9:]
-            top_playlist(canciones)
-            top_tracks_json = top_playlist(canciones)
-            data =  top_tracks_json
-            data = datosopenweathermap_json
-            self.send_response(200)
-            self.send_header('Content-type', 'application/json')
-            self.end_headers()
-            self.wfile.write(json.dumps(data).encode())  # Codificar la cadena a bytes
+        elif self.path.startswith('/spotify/'):
+            pais = self.path[9:]  # Obtener el nombre del país desde la ruta
+            top_tracks_json = top_playlist(pais)  # Llamar a la función para obtener las principales canciones de Spotify
+            if top_tracks_json:
+                data = top_tracks_json
+                self.send_response(200)
+                self.send_header('Content-type', 'application/json')
+                self.end_headers()
+                self.wfile.write(json.dumps(data).encode())  # Enviar la respuesta en formato JSON
 
         else:
             super().do_GET()
